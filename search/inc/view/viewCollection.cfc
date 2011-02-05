@@ -57,8 +57,115 @@
 		<cfargument name="values" type="struct" default="#{}#" />
 		
 		<cfset var filter = '' />
+		<cfset var i = '' />
 		<cfset var options = '' />
 		<cfset var results = '' />
+		<cfset var languages = [
+			{
+				label: 'Arabic',
+				value: 'arabic'
+			},
+			{
+				label: 'Norwegian (Bokmal)',
+				value: 'bokmal'
+			},
+			{
+				label: 'Czech',
+				value: 'czech'
+			},
+			{
+				label: 'Danish',
+				value: 'danish'
+			},
+			{
+				label: 'Dutch',
+				value: 'dutch'
+			},
+			{
+				label: 'English',
+				value: 'english'
+			},
+			{
+				label: 'Finnish',
+				value: 'finnish'
+			},
+			{
+				label: 'French',
+				value: 'french'
+			},
+			{
+				label: 'German',
+				value: 'german'
+			},
+			{
+				label: 'Greek',
+				value: 'greek'
+			},
+			{
+				label: 'Hebrew',
+				value: 'hebrew'
+			},
+			{
+				label: 'Hungarian',
+				value: 'hungarian'
+			},
+			{
+				label: 'Italian',
+				value: 'italian'
+			},
+			{
+				label: 'Japanese',
+				value: 'japanese'
+			},
+			{
+				label: 'Korean',
+				value: 'korean'
+			},
+			{
+				label: 'Korean',
+				value: 'korean'
+			},
+			{
+				label: 'Norwegian',
+				value: 'norwegian'
+			},
+			{
+				label: 'Norwegian (Nynorsk)',
+				value: 'nynorsk'
+			},
+			{
+				label: 'Polish',
+				value: 'polish'
+			},
+			{
+				label: 'Portuguese',
+				value: 'portuguese'
+			},
+			{
+				label: 'Russian',
+				value: 'russian'
+			},
+			{
+				label: 'Chinese (simplified)',
+				value: 'simplified_chinese'
+			},
+			{
+				label: 'Spanish',
+				value: 'spanish'
+			},
+			{
+				label: 'Swedish',
+				value: 'swedish'
+			},
+			{
+				label: 'Chinese (traditional)',
+				value: 'traditional_chinese'
+			},
+			{
+				label: 'Turkish',
+				value: 'turkish'
+			}
+		] />
 		
 		<cfset filter = variables.transport.theApplication.factories.transient.getFilterVertical(variables.transport.theApplication.managers.singleton.getI18N()) />
 		
@@ -67,6 +174,15 @@
 		
 		<!--- Search --->
 		<cfset filter.addFilter('search') />
+		
+		<!--- Language --->
+		<cfset options = variables.transport.theApplication.factories.transient.getOptions() />
+		
+		<cfloop array="#languages#" index="i">
+			<cfset options.addOption(i.label, i.value) />
+		</cfloop>
+		
+		<cfset filter.addFilter('language', options) />
 		
 		<cfreturn filter.toHTML(variables.transport.theRequest.managers.singleton.getURL(), arguments.values) />
 	</cffunction>
