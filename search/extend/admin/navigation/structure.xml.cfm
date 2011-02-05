@@ -5,6 +5,7 @@
 			<add position="action"/>
 			<delete/>
 			<edit/>
+			<optimize/>
 			<update/>
 		</search>
 	</admin>
