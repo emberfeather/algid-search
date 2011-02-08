@@ -1,5 +1,5 @@
 <cfcomponent extends="algid.inc.resource.base.view" output="false">
-	<cffunction name="addCollection" access="public" returntype="string" output="false">
+	<cffunction name="datagrid" access="public" returntype="string" output="false">
 		<cfargument name="data" type="any" required="true" />
 		<cfargument name="options" type="struct" default="#{}#" />
 		
@@ -14,26 +14,35 @@
 		<cfset datagrid.addBundle('plugins/search/i18n/inc/view', 'viewCollection') />
 		
 		<cfset datagrid.addColumn({
-				key = 'collection',
-				label = 'collection'
-			}) />
+			key = 'name',
+			label = 'collection',
+			link = {
+				'collection' = 'name',
+				'_base' = '/admin/search'
+			}
+		}) />
 		
 		<cfset datagrid.addColumn({
-				key = 'directory',
-				label = 'directory'
-			}) />
+			key = 'language',
+			label = 'language'
+		}) />
 		
 		<cfset datagrid.addColumn({
-				class = 'phantom align-right',
-				value = [ 'add' ],
-				link = [
-					{
-						'plugin' = 'plugin',
-						'collectionDirectory' = 'collectionDirectory',
-						'_base' = '/admin/search/collection/add'
-					}
-				]
-			}) />
+			class = 'phantom align-right',
+			value = [ 'delete', 'edit' ],
+			link = [
+				{
+					'collection' = 'name',
+					'_base' = '/admin/search/delete'
+				},
+				{
+					'collection' = 'name',
+					'_base' = '/admin/search/edit'
+				}
+			],
+			linkClass = [ 'delete', '' ],
+			title = 'name'
+		}) />
 		
 		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />
 	</cffunction>
@@ -187,47 +196,51 @@
 		<cfreturn filter.toHTML(variables.transport.theRequest.managers.singleton.getURL(), arguments.values) />
 	</cffunction>
 	
-	<cffunction name="datagrid" access="public" returntype="string" output="false">
-		<cfargument name="data" type="any" required="true" />
-		<cfargument name="options" type="struct" default="#{}#" />
+	<cffunction name="filterSearch" access="public" returntype="string" output="false">
+		<cfargument name="values" type="struct" default="#{}#" />
 		
-		<cfset var datagrid = '' />
-		<cfset var i18n = '' />
+		<cfset var filter = '' />
+		<cfset var i = '' />
+		<cfset var options = '' />
+		<cfset var results = '' />
 		
-		<cfset arguments.options.theURL = variables.transport.theRequest.managers.singleton.getURL() />
-		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
-		<cfset datagrid = variables.transport.theApplication.factories.transient.getDatagrid(i18n, variables.transport.theSession.managers.singleton.getSession().getLocale()) />
+		<cfset filter = variables.transport.theApplication.factories.transient.getFilterVertical(variables.transport.theApplication.managers.singleton.getI18N()) />
 		
 		<!--- Add the resource bundle for the view --->
-		<cfset datagrid.addBundle('plugins/search/i18n/inc/view', 'viewCollection') />
+		<cfset filter.addBundle('plugins/search/i18n/inc/view', 'viewCollection') />
 		
-		<cfset datagrid.addColumn({
-			key = 'name',
-			label = 'collection'
-		}) />
+		<!--- Search --->
+		<cfset filter.addFilter('search') />
 		
-		<cfset datagrid.addColumn({
-			key = 'language',
-			label = 'language'
-		}) />
-		
-		<cfset datagrid.addColumn({
-			class = 'phantom align-right',
-			value = [ 'delete', 'edit' ],
-			link = [
-				{
-					'collection' = 'collectionID',
-					'_base' = '/admin/search/delete'
-				},
-				{
-					'collection' = 'collectionID',
-					'_base' = '/admin/search/edit'
-				}
-			],
-			linkClass = [ 'delete', '' ],
-			title = 'name'
-		}) />
-		
-		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />
+		<cfreturn filter.toHTML(variables.transport.theRequest.managers.singleton.getURL(), arguments.values) />
 	</cffunction>
+	<cfscript>
+	public string function overview(required component collection) {
+		var html = '';
+		var theUrl = '';
+		
+		theUrl = variables.transport.theRequest.managers.singleton.getUrl();
+		
+		html = '<dl class="navigation">';
+		
+		theUrl.setSection('_base', '/admin/search/optimize');
+		
+		html &= '<dt><a href="' & theUrl.getSection() & '">Optimize</a></dt>';
+		html &= '<dd>Optimize the search collection.</dd>';
+		
+		theUrl.setSection('_base', '/admin/search/purge');
+		
+		html &= '<dt><a href="' & theUrl.getSection() & '">Purge</a></dt>';
+		html &= '<dd>Purge the search collection.</dd>';
+		
+		theUrl.setSection('_base', '/admin/search/update');
+		
+		html &= '<dt><a href="' & theUrl.getSection() & '">Update</a></dt>';
+		html &= '<dd>Update the search collection.</dd>';
+		
+		html &= '</dl>';
+		
+		return html;
+	}
+	</cfscript>
 </cfcomponent>

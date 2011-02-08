@@ -6,6 +6,7 @@
 			<delete/>
 			<edit/>
 			<optimize/>
+			<purge/>
 			<update/>
 		</search>
 	</admin>
