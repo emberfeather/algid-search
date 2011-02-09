@@ -12,7 +12,6 @@
 <!--- Run the indexing --->
 <cfset servCollection.updateCollection(collection) />
 
-<!--- Redirect
+<!--- Redirect --->
 <cfset theURL.setRedirect('_base', '/admin/search') />
 <cfset theURL.redirectRedirect() />
- --->
