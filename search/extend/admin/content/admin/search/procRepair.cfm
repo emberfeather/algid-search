@@ -9,8 +9,8 @@
 <!--- Retrieve the object --->
 <cfset collection = servCollection.getCollection(theURL.search('collection')) />
 
-<!--- Run the optimize --->
-<cfset servCollection.optimizeCollection(collection) />
+<!--- Run the repair --->
+<cfset servCollection.repairCollection(collection) />
 
 <!--- Redirect --->
 <cfset theURL.setRedirect('_base', '/admin/search') />

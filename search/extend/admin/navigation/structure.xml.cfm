@@ -7,6 +7,7 @@
 			<edit/>
 			<optimize/>
 			<purge/>
+			<repair/>
 			<update/>
 		</search>
 	</admin>

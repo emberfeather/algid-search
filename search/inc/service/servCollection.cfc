@@ -1,4 +1,14 @@
 component extends="algid.inc.resource.base.service" {
+	public void function deleteCollection(required component collection) {
+		local.observer = getPluginObserver('search', 'collection');
+		
+		local.observer.beforeDelete(variables.transport, arguments.collection);
+		
+		collection name="#arguments.collection.getName()#" action="delete";
+		
+		local.observer.afterDelete(variables.transport, arguments.collection);
+	}
+	
 	public component function getCollection(required string name) {
 		local.collection = getModel('search', 'collection');
 		
@@ -46,15 +56,33 @@ component extends="algid.inc.resource.base.service" {
 		return local.results;
 	}
 	
+	public void function optimizeCollection(required component collection) {
+		local.observer = getPluginObserver('search', 'collection');
+		
+		local.observer.beforeOptimize(variables.transport, arguments.collection);
+		
+		collection name="#arguments.collection.getName()#" action="optimize";
+		
+		local.observer.afterOptimize(variables.transport, arguments.collection);
+	}
+	
+	public void function repairCollection(required component collection) {
+		local.observer = getPluginObserver('search', 'collection');
+		
+		local.observer.beforeRepair(variables.transport, arguments.collection);
+		
+		collection name="#arguments.collection.getName()#" action="repair";
+		
+		local.observer.afterRepair(variables.transport, arguments.collection);
+	}
+	
 	public query function searchCollection(required component collection, struct filter = {}) {
 		local.observer = getPluginObserver('search', 'collection');
 		
-		// Trigger the before search event
 		local.observer.beforeSearch(variables.transport, arguments.collection, arguments.filter);
 		
 		search collection="#arguments.collection.getName()#" name="local.results" criteria="#arguments.filter.search#";
 		
-		// Trigger the after search event
 		local.observer.afterSearch(variables.transport, arguments.collection, arguments.filter);
 		
 		return local.results;

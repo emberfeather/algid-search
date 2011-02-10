@@ -254,6 +254,11 @@
 		html &= '<dt><a href="' & theUrl.getSection() & '">Purge</a></dt>';
 		html &= '<dd>Purge the search collection.</dd>';
 		
+		theUrl.setSection('_base', '/admin/search/repair');
+		
+		html &= '<dt><a href="' & theUrl.getSection() & '">Repair</a></dt>';
+		html &= '<dd>Repair the search collection.</dd>';
+		
 		theUrl.setSection('_base', '/admin/search/update');
 		
 		html &= '<dt><a href="' & theUrl.getSection() & '">Update</a></dt>';
