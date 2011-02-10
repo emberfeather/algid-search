@@ -4,7 +4,7 @@ component extends="algid.inc.resource.base.service" {
 		
 		local.observer.beforeDelete(variables.transport, arguments.collection);
 		
-		collection name="#arguments.collection.getName()#" action="delete";
+		collection collection="#arguments.collection.getName()#" action="delete";
 		
 		local.observer.afterDelete(variables.transport, arguments.collection);
 	}
@@ -61,7 +61,7 @@ component extends="algid.inc.resource.base.service" {
 		
 		local.observer.beforeOptimize(variables.transport, arguments.collection);
 		
-		collection name="#arguments.collection.getName()#" action="optimize";
+		collection collection="#arguments.collection.getName()#" action="optimize";
 		
 		local.observer.afterOptimize(variables.transport, arguments.collection);
 	}
@@ -71,7 +71,7 @@ component extends="algid.inc.resource.base.service" {
 		
 		local.observer.beforeRepair(variables.transport, arguments.collection);
 		
-		collection name="#arguments.collection.getName()#" action="repair";
+		collection collection="#arguments.collection.getName()#" action="repair";
 		
 		local.observer.afterRepair(variables.transport, arguments.collection);
 	}
