@@ -47,6 +47,27 @@
 		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />
 	</cffunction>
 	
+	<cffunction name="displayResults" access="public" returntype="string" output="false">
+		<cfargument name="results" type="query" required="true" />
+		
+		<cfset var i = '' />
+		
+		<cfsavecontent variable="local.html">
+			<cfoutput query="arguments.results">
+				<h3>#arguments.results.title#</h3>
+				<cfloop list="#listSort(structKeyList(arguments.results), 'text')#" index="i">
+					<div><strong>#i#:</strong> #arguments.results[i]#</div>
+				</cfloop>
+			</cfoutput>
+			
+			<cfif not results.recordCount>
+				<p><strong>No Records Found</strong></p>
+			</cfif>
+		</cfsavecontent>
+		
+		<cfreturn local.html />
+	</cffunction>
+	
 	<cffunction name="filterActive" access="public" returntype="string" output="false">
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
