@@ -50,19 +50,26 @@
 	<cffunction name="displayResults" access="public" returntype="string" output="false">
 		<cfargument name="results" type="query" required="true" />
 		
-		<cfset var i = '' />
+		<cfset local.theUrl = variables.transport.theRequest.managers.singleton.getURL() />
+		
+		<cfset local.theUrl.cleanResult() />
 		
 		<cfsavecontent variable="local.html">
-			<cfoutput query="arguments.results">
-				<h3>#arguments.results.title#</h3>
-				<cfloop list="#listSort(structKeyList(arguments.results), 'text')#" index="i">
-					<div><strong>#i#:</strong> #arguments.results[i]#</div>
-				</cfloop>
+			<cfoutput>
+				<ul>
+					<cfloop query="arguments.results">
+						<!--- TODO Remove when RAILO-1180 is fixed --->
+						<cfset local.base = right(arguments.results.url, len(arguments.results.url) - 3) />
+						<cfset local.theUrl.setResult('_base', local.base) />
+						
+						<li><a href="#local.theUrl.getResult()#">#arguments.results.title#</a></li>
+					</cfloop>
+					
+					<cfif not results.recordCount>
+						<li><strong>No results found</strong></li>
+					</cfif>
+				</ul>
 			</cfoutput>
-			
-			<cfif not results.recordCount>
-				<p><strong>No Records Found</strong></p>
-			</cfif>
 		</cfsavecontent>
 		
 		<cfreturn local.html />

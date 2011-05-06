@@ -31,6 +31,15 @@ component extends="plugins.widget.inc.resource.base.widget" {
 			
 			local.results = local.servCollection.searchCollection( local.collection, { search: local.pathParts[1] } );
 			
+			if(local.results.recordCount == 1) {
+				// TODO Remove when RAILO-1180 is fixed
+				local.base = right(local.results.url, len(local.results.url) - 3);
+				
+				theUrl.cleanRedirect();
+				theUrl.setRedirect('_base', local.base);
+				theUrl.redirectRedirect();
+			}
+			
 			return local.viewCollection.displayResults( local.results );
 		}
 		
