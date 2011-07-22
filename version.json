@@ -1,8 +1,8 @@
 {
-	"archive": "",
+	"archive": "http://github.com/emberfeather/algid-search/tarball/0.1.2",
 	"key": "search",
+	"releaseNotes": "http://github.com/emberfeather/algid-search/wiki/Release-Notes",
 	"title": "Search",
-	"releaseNotes": "",
-	"URL": "",
-	"version": "0.1.1"
+	"URL": "http://github.com/emberfeather/algid-search",
+	"version": "0.1.2"
 }
