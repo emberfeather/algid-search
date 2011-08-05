@@ -5,6 +5,7 @@
 	},
 	"i18n": {
 		"locales": [
+			"en_PI",
 			"en_US"
 		]
 	},
@@ -20,5 +21,5 @@
 	},
 	"sessionTransients": {
 	},
-	"version": "0.1.2"
+	"version": "0.1.3"
 }
